@@ -5,9 +5,10 @@
 #                 for the Systematic Review
 # Date created  :    
 # Created by    :    
-# Last modified : Thu 18 Apr 2019 05:47:38 AM MDT
+# Last modified : Fri 19 Apr 2019 02:05:40 AM MDT
 # Modified by   : ck
 # - - - - - - - - - - - - - - - - - - - - - # 
+
 
 # - - - - - - - - - - - - - - - - - - - - - # 
 # Import libraries 
@@ -19,14 +20,20 @@ import os
 import pandas as pd
 import xml.etree.ElementTree as ET
 
+
 try:
     from urllib.error import HTTPError  # for Python 3
 except ImportError:
     from urllib2 import HTTPError  # for Python 2
 # - - - - - - - - - - - - - - - - - - - - - # 
+# Print Python Version
+# - - - - - - - - - - - - - - - - - - - - - # 
+print(sys.version)
+
+# - - - - - - - - - - - - - - - - - - - - - # 
 # Set path to save files
 # - - - - - - - - - - - - - - - - - - - - - # 
-path = "/home/ck/Documents/Projects/SysRev/temp/"
+path = "/home/ck/Downloads/abstracts/"
 
 # - - - - - - - - - - - - - - - - - - - - - # 
 # Register to NCBI
@@ -73,14 +80,14 @@ for start in range(0,count,batch_size):
                 time.sleep(15)
             else:
                 raise
-    print("Saving...")
-    out_handle = open("/home/ck/Documents/Projects/SysRev/temp/recent_asthmacea_papers_batch"+str(batch)+".xml", "w+")
-    data = fetch_handle.read()
-    fetch_handle.close()
-    out_handle.write(data)
-    batch += 1
 
-out_handle.close()
+    with open(path + "recent_asthmacea_papers_batch"+str(batch)+".xml", "w+") as f:
+        print("Saving...")
+        data = fetch_handle.read()
+        fetch_handle.close()
+        f.write(data)
+
+    batch += 1
 
 # - - - - - - - - - - - - - - - - - - - - - # 
 # Parse XML files for Title and Abstract Content
@@ -88,7 +95,7 @@ out_handle.close()
 
 # Create files to iterate over
 files = []
-for r,d,f in os.walk("/home/ck/Documents/Projects/SysRev/temp/"):
+for r,d,f in os.walk(path):
    for  file in f:
       if ".xml" in file:
          files.append(os.path.join(r, file))
@@ -123,4 +130,4 @@ for f in files:
 # Save DF to CSV file for viewing
 # - - - - - - - - - - - - - - - - - - - - - # 
 
-df.to_csv(path+"df.csv")
+df.to_csv(path+"abstractdf.csv")
