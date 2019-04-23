@@ -22,7 +22,8 @@ nnoremap <leader>ev :w!<cr> :vsplit ~/.vimrc<cr>
 nnoremap <localleader>py :w!<cr> :!clear<cr> :!python %<cr>
 
 " Bracket around word
-nnoremap <leader>wb mai{<esc>ea}<esc>`a
+nnoremap <leader>wcb mai{<esc>ea}<esc>`a
+nnoremap <leader>wsb mai[<esc>ea]<esc>`a
 nnoremap <leader>wp mai(<esc>ea)<esc>`a
 " }}}
 
