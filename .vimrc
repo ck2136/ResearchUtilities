@@ -120,6 +120,10 @@ let g:ConqueTerm_StartMessages = 0
 let g:asyncrun_open = 8
 " }}}
 
+" FZF {{{
+set rtp+=~/.fzf
+" }}}
+
 "}}}
 
 " Vim Autocommands --------------------{{{
