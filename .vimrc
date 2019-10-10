@@ -119,6 +119,14 @@ let g:ConqueTerm_StartMessages = 0
 let g:asyncrun_open = 8
 " }}}
 
+" vim-slime {{{
+let g:slime_target = "vimterminal"
+let g:termdebug_wide = 163
+let g:slime_vimterminal_config = {"vertical":"1"}
+let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
+let g:slime_paste_file = tempname()
+" }}}
+
 "}}}
 
 " Vim Autocommands --------------------{{{
@@ -228,6 +236,12 @@ command! Rtags :AsyncRun! Rscript -e 'library("pacman"); p_load(nvimcom,here); r
 
 " Mappings --------------------{{{
 
+" YCM {{{
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" }}}
+
 " Custom Mappings {{{
 nnoremap <F2> mmGoDate: <esc>:read !date<cr>kJ`m
 nnoremap <leader>dt :echo strftime("%c")<cr>
@@ -303,13 +317,16 @@ nnoremap <leader>dw :exe "match Error /" . '\v( )+$/'<CR>
 nnoremap <leader>rv /\v
 " }}}
 
-
 " vim fzf {{{
 nnoremap <leader>ff :Files<cr> " fuzzy find files in working directory (where vim launched)"
 nnoremap <leader>f/ :BLines<cr> "fuzzy find lines in the current file"
 nnoremap <leader>fb :Buffers<cr> "fuzzy find an open buffer
 nnoremap <leader>fr :Rg<cr> "funnzy find text in the working directory"
 nnoremap <leader>fc :Commands<cr> " fuzzy find Vim commands (like Ctr-Shift-P in sublime/atom/vsc)"
+" }}}
+
+" Vim Slime {{{
+nnoremap <leader>ssl :SlimeConfig<cr>
 " }}}
 
 " }}}
