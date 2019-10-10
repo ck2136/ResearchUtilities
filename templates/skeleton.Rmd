@@ -1,0 +1,18 @@
+---
+title: "Project Name"
+author: "Chong H. Kim"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+    html_document:
+        toc: true
+        fig_caption: true
+        theme: flatly
+---
+
+# Introduction
+
+This is a very minimal example! The only thing which is changed in this template is a few of the default settings in the YAML.
+
+# Customisation
+
+A simple template like this might be useful to include if you have a common structure of report that you want to run. For example, you change the author

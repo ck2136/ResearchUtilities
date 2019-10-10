@@ -15,9 +15,8 @@ set expandtab
 set smartindent
 colorscheme murphy
 filetype off                  " required
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=~/.vim/plugin/
+" set the runtime path 
+set rtp+=~/.fzf
 set background=dark
 syntax enable
 set encoding=utf-8
@@ -118,10 +117,6 @@ let g:ConqueTerm_StartMessages = 0
 
 " AsyncRun quickfix {{{
 let g:asyncrun_open = 8
-" }}}
-
-" FZF {{{
-set rtp+=~/.fzf
 " }}}
 
 "}}}
@@ -314,12 +309,14 @@ function! s:compile_and_run()
         exec "AsyncRun! time bash %"
     elseif &filetype == 'python'
         exec "AsyncRun! time python %"
+    elseif &filetype == 'vim'
+        exec "so %"
     endif
 endfunction
 " }}}
 
 " Rtags creation {{{
-command! Rtags :AsyncRun! Rscript -e 'library(here); rtags(path=paste0(here()), recursive=TRUE, ofile="RTAGS")' -e 'etags2ctags("RTAGS", "~/rtagspkg")' -e 'unlink("RTAGS")' -e 'rtags(path=paste0("~/R/x86_64-pc-linux-gnu-library/3.6"), recursive=TRUE, ofile="RTAGS")' -e 'etags2ctags("RTAGS", "~/rtags")' -e 'unlink("RTAGS")'
+command! Rtags :AsyncRun! Rscript -e 'library("pacman"); p_load(nvimcom,here); rtags(path=paste0(here()), recursive=TRUE, ofile="RTAGS")' -e 'etags2ctags("RTAGS", "~/rtagspkg")' -e 'unlink("RTAGS")' -e 'rtags(path=paste0("~/R/x86_64-pc-linux-gnu-library/3.6"), recursive=TRUE, ofile="RTAGS")' -e 'etags2ctags("RTAGS", "~/rtags")' -e 'unlink("RTAGS")' -e 'rtags(path="/usr/lib/R", recursive=TRUE, ofile="RTAGS")' -e 'etags2ctags("RTAGS", "~/rtagssitelib")' -e 'unlink("RTAGS")' -e 'rtags(path="/usr/local/lib/R/site-library", recursive=TRUE, ofile="RTAGS")' -e 'etags2ctags("RTAGS", "~/rtagslocalsitelib")' -e 'unlink("RTAGS")'
 
 " }}}
 
@@ -328,6 +325,8 @@ command! Rtags :AsyncRun! Rscript -e 'library(here); rtags(path=paste0(here()), 
 " Mappings --------------------{{{
 
 " Custom Mappings {{{
+nnoremap <F2> mmGoDate: <esc>:read !date<cr>kJ`m
+nnoremap <leader>dt :echo strftime("%c")<cr>
 inoremap <leader>stf <esc>:w!<cr>
 nnoremap <leader>stf :w!<cr>
 inoremap <c-u> <esc>bviwUA
@@ -422,9 +421,8 @@ nnoremap <leader>fc :Commands<cr> " fuzzy find Vim commands (like Ctr-Shift-P in
 " Tags {{{
 augroup Tags
    autocmd!
-   autocmd FileType r set tags+=~/.cache/Nvim-R/Rtags,~/.cache/Nvim-R/RsrcTags,~/R/x86_64-pc-linux-gnu-library/3.6/tags,~/R/x86_64-pc-linux-gnu-library/3.6/Rtags,*/rtags,**/rtags,~/rtags,~/rtagspkg
-   autocmd FileType rnoweb set tags+=~/.cache/Nvim-R/Rtags,~/.cache/Nvim-R/RsrcTags,~/R/x86_64-pc-linux-gnu-library/3.6/tags,~/R/x86_64-pc-linux-gnu-library/3.6/Rtags,*/rtags,**/rtags,~/rtags,~/rtagspkg
-
+   autocmd FileType r set tags+=~/.cache/Nvim-R/Rtags,~/.cache/Nvim-R/RsrcTags,~/R/x86_64-pc-linux-gnu-library/3.6/tags,~/R/x86_64-pc-linux-gnu-library/3.6/Rtags,*/rtags,**/rtags,~/rtags,~/rtagspkg,~/rtagsbase,~/rtagssitelib,~/rtagslocalsitelib
+   autocmd FileType rnoweb set tags+=~/.cache/Nvim-R/Rtags,~/.cache/Nvim-R/RsrcTags,~/R/x86_64-pc-linux-gnu-library/3.6/tags,~/R/x86_64-pc-linux-gnu-library/3.6/Rtags,*/rtags,**/rtags,~/rtags,~/rtagspkg,~/rtagsbase,~/rtagssitelib,~/rtagslocalsitelib
 augroup END
 
 let g:tagbar_type_r = {
